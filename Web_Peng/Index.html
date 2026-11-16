@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pencatat Pengeluaran</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+<main>
+  <h1>Pencatat pengeluaran</h1>
+
+  <section class="balance" aria-label="Ringkasan">
+    <small>Saldo</small>
+    <div class="total" id="saldo">Rp0</div>
+    <div class="split">
+      <div><span>Pemasukan</span><b id="masuk">Rp0</b></div>
+      <div><span>Pengeluaran</span><b id="keluar">Rp0</b></div>
+    </div>
+  </section>
+
+  <section class="card" aria-label="Tambah catatan">
+    <div class="toggle" id="toggle">
+      <button type="button" class="on" data-t="out">Pengeluaran</button>
+      <button type="button" data-t="in">Pemasukan</button>
+    </div>
+    <label for="nominal">Nominal (Rp)</label>
+    <input id="nominal" type="text" inputmode="numeric" placeholder="25.000" autocomplete="off">
+    <label for="ket">Keterangan</label>
+    <input id="ket" type="text" placeholder="Makan siang" maxlength="60" autocomplete="off">
+    <label for="kat">Kategori</label>
+    <select id="kat"></select>
+    <p class="err" id="err" role="alert"></p>
+    <button type="button" class="add" id="add">Tambah catatan</button>
+  </section>
+
+  <section class="card" aria-label="Riwayat">
+    <h2>Riwayat</h2>
+    <ul id="list"></ul>
+    <p class="empty" id="empty">Belum ada catatan. Isi nominal di atas lalu tekan Tambah catatan.</p>
+  </section>
+
+  <button type="button" class="reset" id="reset">Hapus semua data</button>
+</main>
+
+<script src="sc.js"></script>
+</body>
+</html>
