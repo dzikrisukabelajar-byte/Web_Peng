@@ -130,7 +130,9 @@ let expenseChart = new Chart(ctx, {
                 '#ff6384',
                 '#36a2eb',
                 '#cc65fe',
-                '#ffce56'
+                '#ffce56',
+                '#4bc0c0',
+                '#9966ff'
             ],
             borderWidth: 1
         }]
