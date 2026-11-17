@@ -9,6 +9,36 @@
 
   var $ = function(id){ return document.getElementById(id); };
 
+  
+  var chartCtx = $("expenseChart").getContext('2d');
+  var expenseChart = new Chart(chartCtx, {
+    type: 'doughnut', 
+    data: {
+      labels: CATS.out, 
+      datasets: [{
+        label: 'Total Pengeluaran (Rp)',
+        data: [0, 0, 0, 0, 0, 0], 
+        backgroundColor: [
+          '#ff6384', '#36a2eb', '#cc65fe', '#ffce56', '#4bc0c0', '#9966ff'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            color: '#fff',
+            boxWidth: 12,
+          }
+        }
+      }
+    }
+  });
+
   function load(){
     try {
       var raw = localStorage.getItem(KEY);
@@ -16,12 +46,15 @@
       return Array.isArray(arr) ? arr : [];
     } catch (e) { return []; }
   }
+  
   function save(){
     try { localStorage.setItem(KEY, JSON.stringify(items)); } catch (e) {}
   }
+  
   function rp(n){
     return "Rp" + Math.round(n).toLocaleString("id-ID");
   }
+  
   function fillCats(){
     var sel = $("kat");
     sel.innerHTML = "";
@@ -31,6 +64,25 @@
       sel.appendChild(o);
     });
   }
+
+ 
+  function updateChartData() {
+   
+    var catTotals = {};
+    CATS.out.forEach(function(c){ catTotals[c] = 0; });
+
+    items.forEach(function(it){
+      if (it.t === "out" && catTotals.hasOwnProperty(it.c)) {
+        catTotals[it.c] += it.n;
+      }
+    });
+
+    
+    expenseChart.data.labels = CATS.out;
+    expenseChart.data.datasets[0].data = CATS.out.map(function(c){ return catTotals[c]; });
+    expenseChart.update();
+  }
+
   function render(){
     var masuk = 0, keluar = 0;
     items.forEach(function(it){
@@ -63,12 +115,17 @@
       x.textContent = "✕";
       x.addEventListener("click", function(){
         items = items.filter(function(i){ return i.id !== it.id; });
-        save(); render();
+        save(); 
+        render();
+        updateChartData();
       });
       li.appendChild(info); li.appendChild(a); li.appendChild(x);
       ul.appendChild(li);
     });
     $("empty").style.display = items.length ? "none" : "block";
+    
+    
+    updateChartData();
   }
 
   document.querySelectorAll("#toggle button").forEach(function(btn){
@@ -102,53 +159,22 @@
     $("nominal").value = ""; $("ket").value = "";
     render();
   }
+  
   $("add").addEventListener("click", add);
   ["nominal", "ket"].forEach(function(id){
     $(id).addEventListener("keydown", function(e){ if (e.key === "Enter") add(); });
   });
 
-  $("reset").addEventListener("click", function(){
-    if (!items.length) return;
-    if (confirm("Hapus semua catatan? Ini tidak bisa dibatalkan.")) {
-      items = []; save(); render();
-    }
-  });
+  var resetBtn = $("reset");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", function(){
+      if (!items.length) return;
+      if (confirm("Hapus semua catatan? Ini tidak bisa dibatalkan.")) {
+        items = []; save(); render();
+      }
+    });
+  }
 
   fillCats();
   render();
 })();
-
-const ctx = document.getElementById('expenseChart').getContext('2d');
-let expenseChart = new Chart(ctx, {
-    type: 'doughnut', 
-    data: {
-        labels: ['Makan', 'Transport', 'Belanja', 'Tagihan', 'Hiburan', 'Lainnya'], 
-        datasets: [{
-            label: 'Total Pengeluaran (Rp)',
-            data: [0, 0, 0, 0, 0, 0], 
-            backgroundColor: [
-                '#ff6384',
-                '#36a2eb',
-                '#cc65fe',
-                '#ffce56',
-                '#4bc0c0',
-                '#9966ff'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels: {
-                    color: '#fff' 
-                }
-            }
-        }
-    }
-});
-
-function updateChart(kategori, nominal) {
-}
