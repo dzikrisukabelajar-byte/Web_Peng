@@ -6,6 +6,7 @@
 <title>Pencatat Pengeluaran</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
 <link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </head>
@@ -36,6 +37,11 @@
     <p class="err" id="err" role="alert"></p>
     <button type="button" class="add" id="add">Tambah catatan</button>
   </section>
+
+  <div class="card" style="padding: 15px; margin-top: 20px;">
+    <h3 style="color: #fff; font-size: 16px; margin-bottom: 10px;">Grafik Pengeluaran</h3>
+    <canvas id="expenseChart"></canvas>
+</div>
 
   <section class="card" aria-label="Riwayat">
     <h2>Riwayat</h2>
