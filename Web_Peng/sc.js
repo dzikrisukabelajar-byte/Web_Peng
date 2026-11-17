@@ -117,15 +117,15 @@
   fillCats();
   render();
 })();
-// 1. Inisialisasi awal Grafik (Doughnut Chart)
+
 const ctx = document.getElementById('expenseChart').getContext('2d');
 let expenseChart = new Chart(ctx, {
-    type: 'doughnut', // Bisa diganti 'bar' kalau mau diagram batang
+    type: 'doughnut', 
     data: {
         labels: ['Makan', 'Transport', 'Belanja', 'Tagihan', 'Hiburan', 'Lainnya'], 
         datasets: [{
             label: 'Total Pengeluaran (Rp)',
-            data: [0, 0, 0, 0], 
+            data: [0, 0, 0, 0, 0, 0], 
             backgroundColor: [
                 '#ff6384',
                 '#36a2eb',
